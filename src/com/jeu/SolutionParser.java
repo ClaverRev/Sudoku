@@ -7,6 +7,7 @@ import java.io.IOException;
 public class SolutionParser {
    
     public static int[][] parseSolution(String filename) throws IOException {
+    	
         int[][] grid = new int[9][9];
        
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -29,7 +30,7 @@ public class SolutionParser {
 
     public static void main(String[] args) {
         try {
-            int[][] solution = parseSolution("C://Sat/solution.txt");
+            int[][] solution = parseSolution("C://Sat/solution1.txt");
             for (int[] row : solution) {
                 for (int num : row) {
                     System.out.print(num + " ");

@@ -8,116 +8,122 @@ import java.util.List;
 public class ToDimacs {
     
     private static int var(int i, int j, int k) {
+    	// Affecte à chaque possibilité une valeur unique donc 81*9 possibilités
         return (i - 1) * 81 + (j - 1) * 9 + k;
     }
 
     public static void generateDimacs(int[][] grid, String filename) throws IOException {
-        List<List<Integer>> clauses = new ArrayList<>();
+    	Cellule fictif =new Cellule ();
+    	Cellule clauses =fictif.suiv ;
 
-        // Règles de base pour chaque cellule
+        // Application des Règles de base pour chaque cellule
         for (int i = 1; i <= 9; i++) {
             for (int j = 1; j <= 9; j++) {
                 // Au moins un chiffre
-                List<Integer> clause = new ArrayList<>();
+               
                 for (int k = 1; k <= 9; k++) {
-                    clause.add(var(i, j, k));
+                    clauses.val =var(i, j, k);
+                    clauses =clauses.suiv ;
                 }
-                clauses.add(clause);
-
-                // Au plus un chiffre
-                for (int k = 1; k <= 9; k++) {
-                    for (int l = k + 1; l <= 9; l++) {
-                        clauses.add(List.of(-var(i, j, k), -var(i, j, l)));
-                    }
-                }
-            }
-        }
-
-        // Règles pour les lignes, colonnes et sous-grilles
-        for (int k = 1; k <= 9; k++) {
-            // Lignes
-            for (int i = 1; i <= 9; i++) {
-                List<Integer> clause = new ArrayList<>();
-                for (int j = 1; j <= 9; j++) {
-                    clause.add(var(i, j, k));
-                }
-                clauses.add(clause);
                 
-                for (int j = 1; j <= 9; j++) {
-                    for (int m = j + 1; m <= 9; m++) {
-                        clauses.add(List.of(-var(i, j, k), -var(i, m, k)));
+                // Au plus un chiffre
+                for (int k = 1; k <= 9; k++) {	
+                    for (int l = k + 1; l <= 9; l++) {
+                    	
+                        clauses.val =-var(i, j, k) ;
+                        clauses =clauses.suiv ;
+                        clauses.val =-var(i, j, l);
+                        clauses=clauses.suiv ;
                     }
+                   
                 }
             }
-            
-            // Colonnes (similaire aux lignes)
-            // Sous-grilles (code complet sur GitHub)
         }
 
+        // Application des Règles pour les lignes, colonnes et sous-grilles 
+        
+        //contraintes sur  les lignes 
         for (int k = 1; k <= 9; k++) {
-            for (int blockRow = 0; blockRow < 3; blockRow++) {
-                for (int blockCol = 0; blockCol < 3; blockCol++) {
-                    List<Integer> clause = new ArrayList<>();
-                    for (int i = 1; i <= 3; i++) {
-                        for (int j = 1; j <= 3; j++) {
-                            int row = blockRow * 3 + i;
-                            int col = blockCol * 3 + j;
-                            clause.add(var(row, col, k));
-                        }
-                    }
-                    clauses.add(clause);
-                   
-                    // Interdiction de répétition dans une sous-grille
-                    for (int i = 1; i <= 3; i++) {
-                        for (int j = 1; j <= 3; j++) {
-                            for (int m = j + 1; m <= 3; m++) {
-                                clauses.add(List.of(-var(blockRow * 3 + i, blockCol * 3 + j, k),
-                                                    -var(blockRow * 3 + i, blockCol * 3 + m, k)));
+            for (int i = 1; i <= 9; i++) {    
+                for (int j = 1; j <= 9; j++) {
+                	
+                    for (int m = j + 1; m <= 9; m++) {
+                        clauses.val = -var(i, j, k) ;
+                        clauses =clauses.suiv ;
+                       clauses.val = -var(i, m, k);
+                       clauses=clauses.suiv ;
+                    }   
+               }
+           }
+        }
+
+        
+        // Contraintes sur les sous grilles
+         for (int k = 1; k <= 9; k++) {
+                    for (int blockRow = 0; blockRow < 3; blockRow++) {
+                        for (int blockCol = 0; blockCol < 3; blockCol++) {
+                            for (int i = 1; i <= 3; i++) {
+                                for (int j = 1; j <= 3; j++) {
+                                    for (int m = j + 1; m <= 3; m++) {
+                                        int row1 = blockRow * 3 + i;
+                                        int col1 = blockCol * 3 + j;
+                                        int col2 = blockCol * 3 + m;
+                                        clauses.val=-var(row1, col1, k) ;
+                                        clauses=clauses.suiv ;
+                                        clauses.val =-var(row1, col2, k);
+                                         clauses=clauses.suiv ; 
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
-        }
+       }
         
         
         
-        for (int k = 1; k <= 9; k++) {
-            for (int j = 1; j <= 9; j++) { // Parcours des colonnes
-                List<Integer> clause = new ArrayList<>();
-                for (int i = 1; i <= 9; i++) {
-                    clause.add(var(i, j, k));
-                }
-                clauses.add(clause);
-               
-                // Interdiction de répétition dans une colonne
-                for (int i = 1; i <= 9; i++) {
-                    for (int m = i + 1; m <= 9; m++) {
-                        clauses.add(List.of(-var(i, j, k), -var(m, j, k)));
-                    }
-                }
-            }
-        }
+         
+       // Contraintes sur les colonnes 
+         //En gros pareil que celles des lignes sauf inversion de i et j ; ca se comprend 
         
-        
+       for (int k = 1; k <= 9; k++) {                           
+           for (int j = 1; j <= 9; j++) {                       
+               for (int i = 1; i <= 9; i++) {                   
+               	    
+                   for (int m = i + 1; m <= 9; m++) {           
+                       clauses.val = -var(i, j, k) ;            
+                       clauses =clauses.suiv ;                  
+                      clauses.val = -var(i, m, k);              
+                      clauses=clauses.suiv ;                    
+                   }                                            
+              }                                                 
+          }                                                     
+       }                                                        
+      
+       
         // Ajout des chiffres prédéfinis
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+            	
                 if (grid[i][j] != 0) {
-                    clauses.add(List.of(var(i + 1, j + 1, grid[i][j])));
+                	clauses.val = var(i + 1, j + 1, grid[i][j]);
+                    clauses =clauses.suiv ;
+                 
+                   
                 }
+                
             }
         }
 
         // Écriture dans le fichier
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write("p cnf 729 " + clauses.size() + "\n");
-            for (List<Integer> clause : clauses) {
-                for (int lit : clause) {
-                    writer.write(lit + " ");
-                }
-                writer.write("0\n");
+            writer.write("p cnf 729 " + clauses.taille(clauses) + "\n");
+            Cellule pred =clauses;
+            while (pred  !=null) {
+            	writer.write(pred.val + " ");
+            	pred=clauses.suiv ;
             }
+            writer.write("0\n");
+            
         }
     }
 
