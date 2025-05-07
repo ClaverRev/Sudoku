@@ -15,7 +15,7 @@ public class CDimacs {
 
     public static void generateDimacs(int[][] grid, String filename) throws IOException {
     	
-    	Fichier fich =new Fichier () ;
+    
     	
         BufferedWriter writer = new BufferedWriter(new FileWriter("C://Sat/temporaire.txt"));
 
@@ -110,7 +110,7 @@ public class CDimacs {
         }    writer.close();
         
 
-        fich.afficheFichier("temporaire.txt");
+        Fichier.afficheFichier("temporaire.txt");
         // Ajout de l'entête DIMACS 
         // on le fait en 2 temps pour l'instant car il nous faudrait le nb ; on a une autre solution utilisant des listes 
         //et une autre qui utilise une représentation chainée mais un pb persiste 
