@@ -8,17 +8,23 @@ import java.io.IOException;
 import java.util.Random;
 
 public class SatSolveur {
+	public static String fichierD ;
 
     static final int MAX_ITERATION = 1000000;
-    static final double P = 0.1; // probabilité du "random walk"
+    static final double P = 0.7; // probabilité p varié mais on a jugé que 0.7 convenait mieux ; certaines  valeurs ne trouvaient pas de solutions  
 
     public static void main(String[] args) throws IOException {
-        String fichierDIMACS = "C://Sat/sudoku3sat.cnf"; // <- change ce chemin si besoin
-
+    	/* ici en premier argument le fichier généré en 3sat
+    	 *  et le second pour le fichier dans lequel mettre le résultat 
+    	 
+    	 */
+    	args[1] =fichierD ;
+        String fichierDIMACS = args[0]; // 
+        
         int[][] clauses = lireFichier(fichierDIMACS);
         int nbVariables = nbVariables(clauses);
 
-        boolean[] assignation = initAssignation(nbVariables);
+        boolean[] assignation = intiale(nbVariables);
 
         boolean satisfiable = walkSAT(clauses, assignation, nbVariables);
 
@@ -33,9 +39,10 @@ public class SatSolveur {
     public static int[][] lireFichier(String fichier) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fichier));
         String ligne;
-        int nbVariables = 0, nbClauses = 0;
+        int nbVariables = 0 ;
+        int nbClauses = 0;
 
-        // Lire l'en-tête
+        // nous relisons l'en tete 
         while ((ligne = reader.readLine()) != null) {
             if (ligne.startsWith("p cnf")) {
                 String[] parts = ligne.trim().split("\\s+");
@@ -78,9 +85,9 @@ public class SatSolveur {
         return max;
     }
 
-    public static boolean[] initAssignation(int n) {
+    public static boolean[] intiale(int n) {
         Random rand = new Random();
-        boolean[] assignation = new boolean[n + 1]; // index 0 inutilisé
+        boolean[] assignation = new boolean[n + 1]; //  car index 0 inutilisé
         for (int i = 1; i <= n; i++) {
             assignation[i] = rand.nextBoolean();
         }
@@ -182,7 +189,7 @@ public class SatSolveur {
 
     public static void afficherSolution(boolean[] assignation) throws IOException {
     	
-    	BufferedWriter Writ = new BufferedWriter ( new FileWriter( "C://Sat/res3.txt")) ;
+    	BufferedWriter Writ = new BufferedWriter ( new FileWriter( fichierD)) ;
     	int [] tab = new int [81] ;
     	int k=0 ;
         for (int i = 1; i < assignation.length; i++) {
@@ -196,17 +203,7 @@ public class SatSolveur {
         	}
         }
         Writ.close();
-       /*
-        for (int v=1 ;v<=729 ;v++) {
-        	if (assignation [v] ) {
-        		int valeur = (v - 1) % 9 + 1;
-                int colonne = ((v - 1) / 9) % 9 + 1;
-                int ligne = (v - 1) / 81 + 1;
-                System.out.println ("case i j k " +ligne +" "+colonne+" "+valeur) ;
-        		
-        	}
-        }
-        */
+  
     }
 }
 

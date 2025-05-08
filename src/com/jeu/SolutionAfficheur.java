@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class SolutionParser {
+public class SolutionAfficheur {
    
     public static int[][] parseSolution(String filename) throws IOException {
     	
@@ -30,7 +30,7 @@ public class SolutionParser {
 
     public static void main(String[] args) {
         try {
-            int[][] solution = parseSolution("C://Sat/solution.txt");
+            int[][] solution = parseSolution(args[0]);
             for (int[] row : solution) {
                 for (int num : row) {
                     System.out.print(num + " ");

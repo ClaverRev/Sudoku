@@ -2,7 +2,6 @@ package com.jeu;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -113,7 +112,7 @@ public class CDimacs {
         Fichier.afficheFichier("temporaire.txt");
         // Ajout de l'entête DIMACS 
         // on le fait en 2 temps pour l'instant car il nous faudrait le nb ; on a une autre solution utilisant des listes 
-        //et une autre qui utilise une représentation chainée mais un pb persiste 
+        //et une autre qui utilise une représentation chainée mais un problème persiste 
       
        BufferedReader read =new BufferedReader(new FileReader ("temporaire.txt")) ;
        BufferedWriter Writer = new BufferedWriter(new FileWriter(filename));
@@ -128,7 +127,21 @@ public class CDimacs {
        
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	/* en 1er param le fichier de la grille et en 2eme le lieu voulu du fichier Dimacs
+    	 * 
+    	 */
+    	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;
+    	String ligne ;
+    	String[][] grid1 =new String [9][9];
+    	while ((ligne=reader.readLine())!=null) {
+    		for (int g =0 ;g <=9 ;g++) {
+    			for (int gr =0 ;gr <=9 ;gr++) {
+    				grid1 [g][gr] =(ligne=reader.readLine()).trim().split(" ")[gr] ;
+    			}
+    		 	
+    		}
+    	}
         int[][] grid = {
             {0,0,0,0,8,0,0,4,0},
             {0,5,0,0,3,0,0,0,0},
@@ -142,7 +155,7 @@ public class CDimacs {
         };
 
         try {
-            generateDimacs(grid, "C://Sat/sudoku1.cnf");
+            generateDimacs(grid, args[1]);
             System.out.println("Fichier DIMACS généré avec succès !");
         } catch (IOException e) {
             e.printStackTrace();

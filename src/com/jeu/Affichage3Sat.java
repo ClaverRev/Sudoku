@@ -26,13 +26,17 @@ public class Affichage3Sat {
                 }
             }
         }
-       System.out.println(o) ;
+       System.out.println(o) ; // nous permet ici de savoir le nombre de solutions trouvées étant donné que notre code ne fournit pas  
+                                // malheureusement toutes les solutions 
         return grid;
     }
 
     public static void main(String[] args) {
+    	/*en argument le fichier résultat du 3-Sat 
+    	 * 
+    	 */
         try {
-            int[][] solution = parseSolution("C://Sat/res3.txt");
+            int[][] solution = parseSolution(args[0]);
             for (int[] row : solution) {
                 for (int num : row) {
                     System.out.print(num + " ");

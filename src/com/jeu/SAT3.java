@@ -125,14 +125,15 @@ public class SAT3 {
     	int nb =0 ; // pour le nbre de clauses 
     	int x=0 ; //  pour le nbre de variables 
         int ind = 1; // juste pour les variables auxiliaires
-        BufferedWriter writer =new BufferedWriter (new FileWriter("C://Sat/temporaire3sat.txt")) ;
+        BufferedWriter writer =new BufferedWriter (new FileWriter("temporaire3sat.txt")) ;
 
         for (String[] clause : clauses("temporaire.txt")) {
             int k = clause.length;
             
             if (k == 2) {
-               // String y1 = "50000" + ind++;
-                //String y2 = "50000" + ind++;
+            	// on fait k+1 car on compte aussi le 0 respectant la convention n-Sat
+            	// il sera oublié pour notre propre sat-Solveur 
+       // on choisit volontairement de mettre les variables auxiliaires à partir de 50000 pour empecher toute confusion avec les vraies variables
             	int y1 =50000 +ind++ ;
             	int y2 =50000 +ind++ ;
                 writer.write(clause[0] + " " + y1 + " " + y2+" " +" 0\n" );
@@ -143,7 +144,7 @@ public class SAT3 {
                 x=x+5 ;
                
             } else if (k == 3) {
-               // String y1 = "50000" + ind++;
+               
                 int y1 =50000 +ind++ ;
                 writer.write( clause[0] + " " + clause[1] + " " + y1+" " + "0\n");
                 writer.write( clause[0] + " " + clause[1] + " " +"-"+ y1+" " + "0\n");
@@ -155,14 +156,14 @@ public class SAT3 {
                 x=x+3 ;
             } else {
             	int pre =50000 +ind ;
-                //String pre = "50000" + ind++;
+               
                 writer.write( clause[0] + " " + clause[1] + " " + pre+" " + "0\n");
                 nb++ ;
                 x++;
 
                 for (int i = 2; i < k - 1; i++) {
                 	int newi =50000 +ind++ ;
-                  //  String newi = "50000" + ind++;
+                  
                     writer.write( pre + " " + clause[i] + " " + newi+" " + "0\n");
                     nb++ ;
                     x=x+1;
@@ -178,7 +179,7 @@ public class SAT3 {
         writer.close();
         
         BufferedWriter writ =new BufferedWriter (new FileWriter(fichier)) ;
-        BufferedReader read =new BufferedReader(new FileReader ("C://Sat/temporaire3sat.txt")) ;
+        BufferedReader read =new BufferedReader(new FileReader ("temporaire3sat.txt")) ;
        
         writ.write("p cnf "+ x +" " + nb + "\n");
         String ligne ;
@@ -218,7 +219,7 @@ public class SAT3 {
    
     	final long startTime = System.nanoTime();
         try {
-			transformSATto3SAT("C://Sat/sudoku3sat.cnf");
+			transformSATto3SAT(args[0]);
 			double duration = System.nanoTime() - startTime;
 			 double tempsecond=(duration/1000000000);
 			 System.out.println("la transformation a pris "+tempsecond+"secondes");
