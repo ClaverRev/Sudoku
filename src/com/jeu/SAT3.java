@@ -7,6 +7,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter; 
 
 public class SAT3 {
+	public static String fich ;
+	
 	 public static  int var(int i, int j, int k) {
 	        return ((i - 1) * 81 + (j - 1) * 9 + k );
 	   }
@@ -110,17 +112,18 @@ public class SAT3 {
     
      public static void transformSATto3SAT(String fichier ) throws IOException {
     	//CDimacs c=new CDimacs () ;
-    	 int[][] grid = {
-    	            {0,0,7,0,5,0,0,0,3},
-    	            {3,4,2,6,0,0,0,0,0},
-    	            {0,6,0,0,0,3,0,0,7},
-    	            {0,0,9,0,3,8,0,6,4},
-    	            {7,0,4,1,0,0,5,0,8},
-    	            {6,0,0,4,0,0,1,0,2},
-    	            {9,0,6,0,0,5,0,7,0},
-    	            {4,0,0,8,9,0,2,0,6},
-    	            {0,5,1,7,2,0,3,0,9}
-    	        };
+    	 BufferedReader reader =new BufferedReader (new FileReader (fich)) ;
+     	String lign ;
+     	int[][] grid =new int [9][9];
+     	int gr=0 ;
+     	while ((lign=reader.readLine())!=null) {
+     		String [] val =lign.split(" ") ;
+     		for (int g =0 ;g <=9 ;g++) {
+     				grid [gr][g] = Integer.parseInt(val [g]); 	
+     		}
+     		gr++;
+     	}
+     	reader.close();
     	generateDimacs(grid);
     	int nb =0 ; // pour le nbre de clauses 
     	int x=0 ; //  pour le nbre de variables 
@@ -219,7 +222,8 @@ public class SAT3 {
    
     	final long startTime = System.nanoTime();
         try {
-			transformSATto3SAT(args[0]);
+        	args[0] =fich ;
+			transformSATto3SAT(args[1]);
 			double duration = System.nanoTime() - startTime;
 			 double tempsecond=(duration/1000000000);
 			 System.out.println("la transformation a pris "+tempsecond+"secondes");

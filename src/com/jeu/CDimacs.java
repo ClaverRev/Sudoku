@@ -133,27 +133,17 @@ public class CDimacs {
     	 */
     	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;
     	String ligne ;
-    	String[][] grid1 =new String [9][9];
+    	int[][] grid =new int [9][9];
+    	int gr=0 ;
     	while ((ligne=reader.readLine())!=null) {
+    		String [] val =ligne.split(" ") ;
     		for (int g =0 ;g <=9 ;g++) {
-    			for (int gr =0 ;gr <=9 ;gr++) {
-    				grid1 [g][gr] =(ligne=reader.readLine()).trim().split(" ")[gr] ;
-    			}
-    		 	
+    				grid [gr][g] = Integer.parseInt(val [g]); 	
     		}
+    		gr++;
     	}
-        int[][] grid = {
-            {0,0,0,0,8,0,0,4,0},
-            {0,5,0,0,3,0,0,0,0},
-            {0,0,0,0,0,0,1,0,0},
-            {2,0,3,0,0,5,7,8,0},
-            {8,0,5,0,4,0,0,0,0},
-            {7,9,0,0,0,3,4,0,2},
-            {5,8,0,3,0,2,0,7,0},
-            {4,0,0,0,0,8,2,0,0},
-            {0,1,0,6,0,0,8,3,0}
-        };
-
+    	reader.close();
+        
         try {
             generateDimacs(grid, args[1]);
             System.out.println("Fichier DIMACS généré avec succès !");
