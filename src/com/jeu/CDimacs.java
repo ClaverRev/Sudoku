@@ -131,13 +131,13 @@ public class CDimacs {
     	/* en 1er param le fichier de la grille et en 2eme le lieu voulu du fichier Dimacs
     	 * 
     	 */
-    	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;
+    	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;  //"C://Sat/grille.txt"
     	String ligne ;
     	int[][] grid =new int [9][9];
     	int gr=0 ;
     	while ((ligne=reader.readLine())!=null) {
     		String [] val =ligne.split(" ") ;
-    		for (int g =0 ;g <=9 ;g++) {
+    		for (int g =0 ;g <9 ;g++) {
     				grid [gr][g] = Integer.parseInt(val [g]); 	
     		}
     		gr++;
@@ -145,7 +145,7 @@ public class CDimacs {
     	reader.close();
         
         try {
-            generateDimacs(grid, args[1]);
+            generateDimacs(grid,args[1]);          // "C://Sat/sudoku.cnf"
             System.out.println("Fichier DIMACS généré avec succès !");
         } catch (IOException e) {
             e.printStackTrace();
