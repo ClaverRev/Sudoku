@@ -6,7 +6,7 @@ Toutefois voici un guide pour l'utilisation de nos classes .
 Il y a 7 classes et 1 classe test .
 En utilisant minisat seules les clases CDimacs, MinisatCommande et SolutionAfficheur seront utiliséees dans cet ordre 
  1* CDimacs (en 1er param le fichier de la grille attendu comme tel et en 2eme le lieu voulu du fichier Dimacs) pour générer le fichier dimacs
- 2* MinisatCommande pour lancer Minisat mais on peut aussi le faire sur le terminal
+ 2* MinisatCommande pour lancer Minisat mais on peut aussi le faire sur votre terminal ( on oe conseille si vous avez la version Minisat pré -compilée)
  3* SolutionAfficheur pour avoir une réponse visuelle de la grille : en paramètre le fichier de la solution obtenue précédemment  
 
  En utilisant notre propre sat solveur (qui ne trouve malheureusement que 50 valeurs max sur 81 ) on procédera comme suit
