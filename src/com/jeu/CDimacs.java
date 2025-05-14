@@ -137,7 +137,7 @@ public class CDimacs {
     	int gr=0 ;
     	while ((ligne=reader.readLine())!=null) {
     		String [] val =ligne.split(" ") ;
-    		for (int g =0 ;g <=9 ;g++) {
+    		for (int g =0 ;g <9 ;g++) {
     				grid [gr][g] = Integer.parseInt(val [g]); 	
     		}
     		gr++;
