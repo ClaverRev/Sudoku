@@ -19,6 +19,8 @@ En utilisant minisat seules les clases CDimacs, MinisatCommande et SolutionAffic
 
 
   Pour rappel merci de retrouver tout le code sur la branche Master.et désolé pour la confusion .
+  Vous pourrez constater que 2 classes ont été mises à jour ; en effet ce n'est pas une correction de classe mais plutôt le git push qui avait été omis.
+  On a oublié de faire un git push pour mettre la derniere version et à la place on avait fait un git pull ( veuillez nous excuser )
 
   Nous ( Khalil , Claver , Edem , Amadou ) vous souhaitons bonne expérimentation.
 
