@@ -118,7 +118,7 @@ public class SAT3 {
      	int gr=0 ;
      	while ((lign=reader.readLine())!=null) {
      		String [] val =lign.split(" ") ;
-     		for (int g =0 ;g <=9 ;g++) {
+     		for (int g =0 ;g <9 ;g++) {
      				grid [gr][g] = Integer.parseInt(val [g]); 	
      		}
      		gr++;
