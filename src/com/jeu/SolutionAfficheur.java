@@ -21,6 +21,7 @@ public class SolutionAfficheur {
                         int j = ((var - 1) / 9) % 9 + 1;
                         int i = (var - 1) / 81 + 1;
                         grid[i - 1][j - 1] = k;
+                        System.out.println("valeur" +var +"a la ligne " +i +" "+ j+" "+ k) ;
                     }
                 }
             }

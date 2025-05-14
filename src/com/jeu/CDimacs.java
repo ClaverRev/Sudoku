@@ -20,6 +20,19 @@ public class CDimacs {
 
         int nb = 0;
        
+     // Ajout des chiffres prédéfinis de notre grille non résolue
+        
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (grid[i][j] != 0) {
+                    writer.write(var(i + 1, j + 1, grid[i][j]) + " 0\n");
+                    nb++;
+                }
+            }
+        }   
+        
+        
+        
         // Chaque cellule doit contenir un chiffre (Au moins un chiffre)
         for (int i = 1; i <= 9; i++) {
             for (int j = 1; j <= 9; j++) {
@@ -98,23 +111,14 @@ public class CDimacs {
             }
         }
 
-        // Ajout des chiffres prédéfinis de notre grille non résolue
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (grid[i][j] != 0) {
-                    writer.write(var(i + 1, j + 1, grid[i][j]) + " 0\n");
-                    nb++;
-                }
-            }
-        }    writer.close();
-        
+        writer.close();
 
-        Fichier.afficheFichier("temporaire.txt");
+        Fichier.afficheFichier("C://Sat/temporaire.txt");
         // Ajout de l'entête DIMACS 
         // on le fait en 2 temps pour l'instant car il nous faudrait le nb ; on a une autre solution utilisant des listes 
         //et une autre qui utilise une représentation chainée mais un problème persiste 
       
-       BufferedReader read =new BufferedReader(new FileReader ("temporaire.txt")) ;
+       BufferedReader read =new BufferedReader(new FileReader ("C://Sat/temporaire.txt")) ;
        BufferedWriter Writer = new BufferedWriter(new FileWriter(filename));
        Writer.write("p cnf 729 " + nb + "\n");
        String ligne ;
@@ -131,7 +135,7 @@ public class CDimacs {
     	/* en 1er param le fichier de la grille et en 2eme le lieu voulu du fichier Dimacs
     	 * 
     	 */
-    	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;  //"C://Sat/grille.txt"
+    	BufferedReader reader =new BufferedReader (new FileReader (args[0])) ;  //
     	String ligne ;
     	int[][] grid =new int [9][9];
     	int gr=0 ;
@@ -143,7 +147,8 @@ public class CDimacs {
     		gr++;
     	}
     	reader.close();
-        
+    
+    	 
         try {
             generateDimacs(grid,args[1]);          // "C://Sat/sudoku.cnf"
             System.out.println("Fichier DIMACS généré avec succès !");
